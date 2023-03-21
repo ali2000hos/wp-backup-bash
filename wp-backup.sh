@@ -22,7 +22,7 @@ pre_activities(){
 }
 
 outpout_db(){
-    if  [ $website="*"]
+    if  [$website="*"]
     then 
         mysqldump -u root -p${db_root_password} --all-databases --master-data | gzip > /alldatabases.sql.gz
     else
@@ -30,11 +30,11 @@ outpout_db(){
     fi 
 }
 outpout_websitefiles(){
-    if  [ $website="*"]
+    if  [$website="*"]
     then 
         tar -cpvzf /allsitesfile.tar.gz /var/www/*
     else
-        tar -cpvzf /${websitefolder}files.tar.gz /var/www/${websitefolder}/* 
+        tar -cpvzf /${websitefolder}files.tar.gz /var/www/${website}/* 
     fi    
 }
 
