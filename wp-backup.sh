@@ -1,12 +1,12 @@
 # root password of databases (in the file)
 # upload server ( in the file)
 # site urls ( input from cli)
-
-FTPHOST="192.168.0.0"
-FTPUSER="user1"
+NOW=$(date +"%Y-%m-%d-%H%M")
+FTPHOST="127.0.0.1"
+FTPUSER="user"
 FTPPASSWORD="1234"
 
-db_root_password="sdvbhksdv"
+db_root_password="12345abcd"
 
 ########
 website="$1"
@@ -18,7 +18,6 @@ websitefolder="${website//[^[:alnum:]]/}"
 pre_activities(){
      cd /
      mkdir /site-backups/
-     mkdir /full-backups/
 }
 
 outpout_db(){
@@ -29,21 +28,21 @@ outpout_websitefiles(){
 }
 
 packaging(){
-        tar -cpvzf /site-backups/${websitefolder}.tar.gz /${websitefolder}files.tar.gz /${dbname}.sql.gz
-        rm /${websitefolder}files.tar.gz /${dbname}.sql.gz   
+        tar -cpvzf /site-backups/${websitefolder}-${NOW}.tar.gz /${websitefolder}files.tar.gz /${dbname}.sql.gz
+        rm /${websitefolder}files.tar.gz /${dbname}.sql.gz
 }
 
 upload_packages(){
 
         DESTINATION="/site-backups"
-        ALL_FILES="/site-backups/${websitefolder}.tar.gz"
+        ALL_FILES="/site-backups/${websitefolder}-${NOW}.tar.gz"
         ftp -inv $FTPHOST <<EOF
 user $FTPUSER $FTPPASSWORD
+pass
 cd $DESTINATION
 mput $ALL_FILES
 bye
-EOF  
-
+EOF
 }
 
 pre_activities
